@@ -7,4 +7,5 @@ Project that fetches game data from the SteamSpy API and analyzes it to find the
 ## Status: In progress 🟡
 
 ## Current feature
-- Processes data from JSON file.
+- Screen app
+- Processes data from JSON file

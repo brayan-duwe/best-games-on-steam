@@ -1,3 +1,4 @@
 /.ipynb_checkpoints
 steam_ranking.ipynb
 /venv
+src/__pycache__/
