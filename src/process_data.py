@@ -30,16 +30,19 @@ def average_reviews(data):
 
     return data
 
-def data_filter(data):
-    filtered_data = data[[COL_NAME, COL_DEVELOPER, COL_PRICE, COL_REVIEWS]]
-    filtered_data = filtered_data.rename(columns={COL_NAME: "Name", COL_DEVELOPER: "Developer", COL_PRICE: "Price", COL_REVIEWS: "Reviews"})
+def data_selection(data):
+    selected_data = data[[COL_NAME, COL_DEVELOPER, COL_PRICE, COL_REVIEWS]]
+    selected_data = selected_data.rename(columns={COL_NAME: "Name", COL_DEVELOPER: "Developer", COL_PRICE: "Price", COL_REVIEWS: "Reviews"})
 
-    return filtered_data
+    return selected_data
+
+def data_filter(selected_data, column, value):
+    return selected_data[selected_data[column] == value]
 
 def get_processed_data():
     data = sheet_data()
     data = dollar_converter(data)
     data = average_reviews(data)
-    filtered_data = data_filter(data)
+    selected_data = data_selection(data)
 
-    return filtered_data
+    return selected_data
