@@ -8,7 +8,7 @@ def color_reviews(val):
     if val == "Positive":
         return "background-color: green"
     elif val == "Mostly positive":
-        return "background-color: lightgreen"
+        return "background-color: lightgreen; color: black"
     elif val == "Neutral":
         return "background-color: yellow"
     return "background-color: orange"
@@ -37,6 +37,22 @@ with left_column:
             data = data[data["Price_numeric"] < price_range]
         else:
             data = data[data["Price"] == "Free"]
+
+    reviews = st.radio(
+        "Reviews",
+        ("All", "Positive", "Mostly positive", "Neutral", "Mostly negative")
+    )
+    if reviews == "All":
+        pass
+    elif reviews == "Positive":
+        data = data[data["Reviews"] == "Positive"]
+    elif reviews == "Mostly positive":
+        data = data[data["Reviews"] == "Mostly positive"]
+    elif reviews == "Neutral":
+        data = data[data["Reviews"] == "Neutral"]
+    elif reviews == "Mostly negative":
+        data = data[data["Reviews"] == "Mostly negative"]
+
 
 with right_column:
     st.text_input("Search by the name: ", key="name")
