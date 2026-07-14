@@ -18,7 +18,8 @@ st.set_page_config(layout="wide")
 with left_column:
     game_prices = st.segmented_control(
         "Price",
-        ("All", "Free", "Paid")        
+        ("All", "Free", "Paid"),
+        default="All"     
     )
     if game_prices != "All":
         if game_prices == "Free":
@@ -53,11 +54,22 @@ with left_column:
     elif reviews == "Mostly negative":
         data = data[data["Reviews"] == "Mostly negative"]
 
-
 with right_column:
     st.text_input("Search by the name: ", key="name")
     if st.session_state.name != "":
         data = data[data["Name"].str.contains(st.session_state.name, case=False, na=False)]
 
-    styled_data = data.style.map(color_reviews, subset=["Reviews"])
-    st.dataframe(styled_data, height=800, hide_index=True, column_order=("Name", "Developer", "Price", "Reviews"))
+    num_pages = len(data) // 20
+    if num_pages == 0:
+        num_pages = 1
+
+    table_placeholder = st.empty()
+    _, center_column, _ = st.columns([1, 2, 1])
+    with center_column:
+        current_page = st.pagination(num_pages)
+
+    start = (current_page - 1) * 20
+    end = start + 20
+    page_data = data.iloc[start:end]
+    styled_data = page_data.style.map(color_reviews, subset=["Reviews"])
+    table_placeholder.dataframe(styled_data, height=738, hide_index=True, column_order=("Name", "Developer", "Price", "Reviews"))
