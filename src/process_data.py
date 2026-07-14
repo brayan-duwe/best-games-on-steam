@@ -16,8 +16,8 @@ def sheet_data():
     return result
 
 def dollar_converter(data):
-    data[COL_PRICE] = (pd.to_numeric(data[COL_PRICE]) / 100).round(2)
-    data[COL_PRICE] = data[COL_PRICE].apply(lambda x: "Free" if x == 0.0 else f"${x:.2f}")
+    data["Price_numeric"] = (pd.to_numeric(data[COL_PRICE]) / 100).round(2)
+    data[COL_PRICE] = data["Price_numeric"].apply(lambda x: "Free" if x == 0.0 else f"${x:.2f}")
 
     return data
 
@@ -31,7 +31,7 @@ def average_reviews(data):
     return data
 
 def data_selection(data):
-    selected_data = data[[COL_NAME, COL_DEVELOPER, COL_PRICE, COL_REVIEWS]]
+    selected_data = data[[COL_NAME, COL_DEVELOPER, COL_PRICE, COL_REVIEWS, "Price_numeric"]]
     selected_data = selected_data.rename(columns={COL_NAME: "Name", COL_DEVELOPER: "Developer", COL_PRICE: "Price", COL_REVIEWS: "Reviews"})
 
     return selected_data
